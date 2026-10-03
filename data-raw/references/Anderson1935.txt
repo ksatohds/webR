@@ -1,0 +1,16 @@
+Anderson, E. (1935). The irises of the Gaspe Peninsula.
+Bulletin of the American Iris Society, 59, 2-5. (October 1935)
+DOI: なし
+URL（書誌の確認元）: https://wiki.irises.org/Hist/AuthorBibliography
+
+確認方法 (2026-10-04):
+  米国アイリス協会の Iris Wiki の著者別文献一覧に
+  "Anderson, E. S, (1935), The Irises of the Gaspe Peninsula, Bulletin of the American Iris Society, #59 October."
+  とあることを確認。頁 (2-5) は R の ?iris の記載による（原本は未見）。
+
+Abstract:
+  なし（会報記事）。PDF はオンラインで見つからず。
+  iris データの測定を行った植物学者 Edgar Anderson による、ガスペ半島のアヤメに関する記事。
+
+本プロジェクトでの用途:
+  site/CART/data/iris.csv のデータ収集者としての出典。解析論文は Fisher (1936) → Fisher1936.txt

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>webR Shiny Apps</title>
+<style>
+  :root { --fg:#1f2328; --muted:#59636e; --bg:#ffffff; --card:#f6f8fa; --line:#d1d9e0; --link:#0969da; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e6edf3; --muted:#9198a1; --bg:#0d1117; --card:#151b23; --line:#3d444d; --link:#4493f8; }
+  }
+  body { margin:0; background:var(--bg); color:var(--fg);
+         font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif; line-height:1.6; }
+  main { max-width: 760px; margin: 0 auto; padding: 32px 16px 48px; }
+  h1 { font-size: 1.6rem; margin: 0 0 4px; }
+  p.lead { color: var(--muted); margin: 0 0 24px; }
+  ul.apps { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  ul.apps li { background: var(--card); border: 1px solid var(--line); border-radius: 8px; padding: 14px 16px; }
+  ul.apps a { color: var(--link); font-weight: 600; font-size: 1.1rem; text-decoration: none; }
+  ul.apps a:hover { text-decoration: underline; }
+  ul.apps p { margin: 4px 0 0; color: var(--muted); font-size: .95rem; }
+  footer { margin-top: 32px; font-size: .85rem; color: var(--muted); }
+  footer a { color: var(--link); }
+</style>
+</head>
+<body>
+<main>
+  <h1>webR Shiny Apps</h1>
+  <p class="lead">R Shiny apps that run entirely in your web browser (Shinylive / webR).
+    Uploaded data are processed on your computer and are not sent to any server.
+    The first load may take a while.</p>
+  <ul class="apps">
+    <li>
+      <a href="CART/">CART</a>
+      <p>Classification And Regression Tree (rpart, rpart.plot, partykit, pROC)</p>
+    </li>
+  </ul>
+  <footer>
+    <a href="https://sites.google.com/view/ksatoh/english/">(C) Prof. Kenichi SATOH, Shiga University, JAPAN</a>
+  </footer>
+</main>
+</body>
+</html>

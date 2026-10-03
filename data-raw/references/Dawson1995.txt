@@ -1,0 +1,34 @@
+Dawson, R. J. MacG. (1995). The "Unusual Episode" data revisited.
+Journal of Statistics Education, 3(3).
+DOI: 10.1080/10691898.1995.11910499
+URL: https://doi.org/10.1080/10691898.1995.11910499
+本文 (JSE 旧サイト): https://jse.amstat.org/v3n3/datasets.dawson.html
+PDF (Taylor & Francis): https://www.tandfonline.com/doi/pdf/10.1080/10691898.1995.11910499  (各自でダウンロード)
+
+確認方法 (2026-10-04):
+  Crossref API https://api.crossref.org/works/10.1080/10691898.1995.11910499 で
+  著者・題名・誌名・巻号・年を確認。R の ?Titanic の Source 欄とも一致。
+
+Abstract（要約。原文は上記 JSE ページ参照）:
+  授業で「ある異常な出来事」の死亡データとして使われてきた表について、
+  正体（タイタニック号の沈没）と、出回っていた「解答」との食い違いを調べ、
+  授業で使えるよう説明を付けたデータセットを示した論文。
+  乗員を含む改訂版の表は英国商務省 (British Board of Trade) の調査報告に基づき、
+  2201人・死亡1490人。
+
+権利表示（JSE ページ末尾）:
+  論文本文 ("This text") は個人間の共有は自由だが、著者の書面による同意なしの再出版は不可、
+  という趣旨の表示がある。対象は論文の本文であり、集計値そのものではない。
+  本プロジェクトは本文を転載せず、R の datasets::Titanic の集計値のみを使う。
+
+原資料（未確認・要確認）:
+  British Board of Trade の 1912 年の調査報告（1990 年に Allan Sutton Publishing から復刻）。
+  R の ?Titanic と Dawson (1995) に記載があるが、原本の書誌は独自に確認していない。
+  検索キーワード: "Report on the Loss of the Titanic (S.S.)" 1912 Board of Trade inquiry Cd. 6352
+
+本プロジェクトでの用途:
+  site/CART/data/titanic.csv の出典。datasets::Titanic（4元分割表、計2201人）を
+  1人1行に展開し、Survived を Died (1 = 死亡) に置き換えたもの。
+  作成スクリプト: data-raw/CART_example_data.R
+  逆変換（クロス集計）で datasets::Titanic と完全一致することを確認済み。
+  なお Dawson (1995) のデータ自体も1人1行の形式（R の ?Titanic の記載による）。

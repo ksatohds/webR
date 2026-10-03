@@ -1,0 +1,24 @@
+Fisher, R. A. (1936). The use of multiple measurements in taxonomic problems.
+Annals of Eugenics, 7(2), 179-188.
+DOI: 10.1111/j.1469-1809.1936.tb02137.x
+URL: https://doi.org/10.1111/j.1469-1809.1936.tb02137.x
+PDF (Wiley): https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1469-1809.1936.tb02137.x  (各自でダウンロード)
+
+確認方法 (2026-10-04):
+  Crossref API https://api.crossref.org/works/10.1111/j.1469-1809.1936.tb02137.x で
+  著者・題名・誌名・巻号・頁・年を確認。R の ?iris の Source 欄とも一致。
+
+Abstract:
+  なし（1936年の論文で要旨欄がない）。Crossref の abstract 欄には、Annals of Eugenics
+  (1925-1954) を歴史的資料として公開している旨の Wiley の注記が入っている。
+  内容の要約: 3種のアヤメ (Iris setosa, versicolor, virginica) 各50個体の
+  がく片・花弁の長さと幅の測定値を用い、線形判別関数による種の判別を論じた論文。
+
+本プロジェクトでの用途:
+  site/CART/data/iris.csv の出典（R の datasets::iris をそのまま CSV 化）。
+  データ収集者は Anderson (1935) → Anderson1935.txt
+
+関連:
+  UCI Machine Learning Repository の Iris (DOI: 10.24432/C56C76) は CC BY 4.0。
+  UCI 版は Fisher の論文と2個体（35番、38番）の値が異なると UCI 自身が注記している。
+  R の datasets::iris は UCI 版ではない（本プロジェクトの CSV は R 版）。
