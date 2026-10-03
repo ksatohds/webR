@@ -95,7 +95,8 @@ shinyUI(fluidPage(
       actionButton("submit1","Apply..."),
       hr(),
       h3("Example Data Files"),
-      # site/CART/data/ を docs/CART/data/ に配置（アプリ本体は CART/app_xxx/ で動くので "../data/"）
+      # Example data are served from docs/CART/data/ (copied from site/CART/data/);
+      # the app itself runs in CART/app_xxx/, hence "../data/"
       lapply(c("titanic.csv", "iris.csv"),
              function(f) a(href=paste0("../data/", f), download=f, f)),
       p("Both files were created from R's datasets package. ",

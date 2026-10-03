@@ -1,71 +1,70 @@
 # webR Shiny Apps
 
-R Shiny apps that run entirely in the web browser with [Shinylive](https://posit-dev.github.io/r-shinylive/) / [webR](https://docs.r-wasm.org/webr/latest/), hosted on GitHub Pages.
-Shinylive / webR により、ブラウザだけで動く R Shiny アプリを GitHub Pages で公開しています。
-サーバーを使わないため、アップロードしたデータは利用者のパソコンから外に出ません。
+R Shiny apps that run entirely in the web browser with [Shinylive](https://posit-dev.github.io/r-shinylive/) and [webR](https://docs.r-wasm.org/webr/latest/), hosted on GitHub Pages.
+No server is involved, so data uploaded to an app never leave the user's computer.
 
 <https://ksatohds.github.io/webR/>
 
 | App | URL | Source |
 |---|---|---|
-| CART | <https://ksatohds.github.io/webR/CART/> | `apps/CART/` |
+| CART (classification and regression trees) | <https://ksatohds.github.io/webR/CART/> | `apps/CART/` |
 
-## 構成
+## Layout
 
-| Path | 内容 |
+| Path | Contents |
 |---|---|
-| `apps/<app>/` | アプリのソース（`ui.R`, `server.R` と、アプリに同梱するファイル） |
-| `site/` | `docs/` にそのままコピーするファイル（一覧ページ `index.html`、サンプルデータ） |
-| `data-raw/` | サンプルデータの作成スクリプトと出典の文献情報 |
-| `tests/` | 動作確認用データの作成スクリプト |
-| `build.R` | 全アプリを `docs/` に書き出す |
-| `docs/` | 公開物（GitHub Pages: main ブランチ `/docs`）。**手で編集しない** |
+| `apps/<app>/` | App source (`ui.R`, `server.R` and any files bundled with the app) |
+| `site/` | Files copied verbatim into `docs/` (the index page `index.html` and the example data) |
+| `data-raw/` | Script that creates the example data, and bibliographic records of their sources |
+| `tests/` | Script that creates test data for checking the apps |
+| `build.R` | Exports all apps into `docs/` |
+| `docs/` | The published site (GitHub Pages: branch `main`, folder `/docs`). **Do not edit by hand.** |
 
-`docs/shinylive/` の webR 本体と R パッケージは全アプリで共有します。
+The webR runtime and the R packages under `docs/shinylive/` are shared by all apps.
 
-## ビルド
+## Build
 
-R と CRAN の shinylive パッケージが必要です。
+Requires R and the CRAN package shinylive.
 
 ```bash
-Rscript build.R          # 全アプリ
-Rscript build.R CART     # CART だけ
+Rscript build.R          # all apps
+Rscript build.R CART     # CART only
 ```
 
-アプリが使うパッケージは書き出し時に自動で検出され、WebAssembly 版が `docs/shinylive/webr/packages/` に同梱されます。
-手元とWebAssembly版でバージョンが違うと警告が出ますが、書き出しは完了します。
+The packages an app uses are detected automatically, and their WebAssembly builds are bundled in `docs/shinylive/webr/packages/`.
+If a locally installed package version differs from the WebAssembly build, a warning is shown, but the export still completes.
 
-## ローカルでの確認
+## Checking locally
 
-`docs/` は HTTP で配信する必要があります（`file://` では動きません）。本番と同じ `/webR/` のパスで配信する例:
+`docs/` must be served over HTTP (it does not work from `file://`). To serve it under the same `/webR/` path as on GitHub Pages:
 
 ```bash
 Rscript -e "httpuv::runServer('127.0.0.1', 7655, list(call = function(req) list(status = 404L, headers = list(), body = ''), staticPaths = list('/webR' = httpuv::staticPath('docs', indexhtml = TRUE))))"
 ```
 
-<http://localhost:7655/webR/CART/> を開きます。
+Then open <http://localhost:7655/webR/CART/>.
 
-確認項目（ビルドし直したとき）:
+After every rebuild, check that:
 
-1. ブラウザのコンソールに、パッケージ読み込みのエラーがないこと
-2. `tests/data/birthwt_jp.csv`（日本語の列名・水準、`Rscript tests/make_testdata.R` で作成）で分類木を作り、6つの図と ROC 曲線が出ること
-3. `site/CART/data/iris.csv` で回帰木（応答 `Sepal.Length`）が作れること
-4. ダウンロードがすべて動くこと（PDF 5種、PNG、CSV 3種は CP932）
+1. the browser console shows no errors while the packages are loaded;
+2. a classification tree built from `tests/data/birthwt_jp.csv` (Japanese column names and factor levels; create it with `Rscript tests/make_testdata.R`) shows all six plots, including the ROC curve;
+3. a regression tree can be built from `site/CART/data/iris.csv` (response `Sepal.Length`);
+4. every download works (five PDFs, one PNG, and three CSV files encoded in CP932).
 
-想定される失敗:
+Known failure modes:
 
-- 図が `invalid 'width' argument` になる → 表示幅が0（非表示のタブで開いている）。見える状態で再読み込みする
-- webR にないパッケージを使っている → 書き出し時に警告が出る。<https://repo.r-wasm.org/> で確認する
-- `system()` などの OS 呼び出し → webR では使えない（`R.version$os == "emscripten"` で分岐する）
+- Plots fail with `invalid 'width' argument`: the page was rendered with zero width (e.g. in a hidden tab). Reload it in a visible window.
+- A package is not available for webR: the export warns about it. Check <https://repo.r-wasm.org/>.
+- `system()` and other OS calls do not work in webR: branch on `R.version$os == "emscripten"`.
 
-## アプリの追加
+## Adding an app
 
-1. `apps/<Name>/` に `ui.R` と `server.R`（または `app.R`）を置く
-2. `Rscript build.R <Name>`
-3. `site/index.html` の一覧に追記して、もう一度 `Rscript build.R`
-4. ローカルで確認してから commit / push
+1. Put `ui.R` and `server.R` (or `app.R`) in `apps/<Name>/`.
+2. Run `Rscript build.R <Name>`.
+3. Add the app to the list in `site/index.html` and run `Rscript build.R` again.
+4. Check it locally, then commit and push.
 
-## ライセンス
+## License
 
-- 本リポジトリ用に書いたコード: MIT（`LICENSE`）
-- サンプルデータ、フォント、実行環境（Shinylive / webR / R パッケージ）: `THIRD-PARTY.md`
+- Code written for this repository: MIT (see `LICENSE`).
+- Example data, font and runtime (Shinylive, webR, R packages): see `THIRD-PARTY.md`.

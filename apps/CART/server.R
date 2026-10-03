@@ -10,7 +10,7 @@ font_add("IPAexGothic", "ipaexg.ttf")
 showtext_auto()
 showtext_opts(dpi = 96)
 
-# webR (Shinylive) では system() が使えないため fc-cache を実行しない
+# system() is not available in webR (Shinylive), so fc-cache is skipped there
 if (.Platform$OS.type != "windows" && R.version$os != "emscripten") {
   dir.create("~/.fonts", showWarnings = FALSE, recursive = TRUE)
   file.copy("ipaexg.ttf", "~/.fonts/ipaexg.ttf", overwrite = TRUE)

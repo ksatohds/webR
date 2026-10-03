@@ -1,7 +1,8 @@
-# webR 版アプリの動作確認用データを tests/data/ に作る
-#   birthwt_jp.csv : 2値応答 (ROC) + 日本語の列名・水準 (UTF-8)
-#   iris.csv       : 連続応答 (回帰) と 3 クラス分類の両方に使う
-# 使い方: このファイルのあるフォルダの親で Rscript tests/make_testdata.R
+# Create test data for checking the webR apps in tests/data/ (not committed)
+#   birthwt_jp.csv : binary response (ROC curve) with Japanese column names and factor
+#                    levels (UTF-8), to check Japanese text in plots, PDFs and CSV downloads
+#   iris.csv       : continuous response (regression) and a 3-class response
+# Usage (in the repository root): Rscript tests/make_testdata.R
 
 library(MASS)
 

@@ -1,4 +1,4 @@
-# 公開物・データ・フォントは改行コードを変換せずそのまま収録する
+# Store the published site, data and fonts byte for byte (no line-ending conversion)
 docs/** -text
 *.csv -text
 *.ttf -text

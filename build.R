@@ -1,11 +1,11 @@
-# apps/ 以下の各 Shiny アプリを Shinylive で docs/ に書き出す
-# docs/ は GitHub Pages (main ブランチ /docs) で公開する
-#   https://ksatohds.github.io/webR/        <- site/index.html (アプリ一覧)
+# Export every Shiny app under apps/ into docs/ with Shinylive.
+# docs/ is published by GitHub Pages (branch main, folder /docs):
+#   https://ksatohds.github.io/webR/        <- site/index.html (list of apps)
 #   https://ksatohds.github.io/webR/<app>/  <- apps/<app>/
-#   site/ 以下のファイルはそのまま docs/ にコピー（例: site/CART/data/ -> docs/CART/data/）
+#   Files under site/ are copied into docs/ as they are (e.g. site/CART/data/ -> docs/CART/data/)
 #
-# 使い方: このファイルのあるフォルダで Rscript build.R
-#         特定のアプリだけ: Rscript build.R CART
+# Usage (in this folder): Rscript build.R
+#         a single app:   Rscript build.R CART
 
 library(shinylive)
 
@@ -18,12 +18,12 @@ for (app in apps) {
   shinylive::export(file.path("apps", app), "docs", subdir = app, quiet = FALSE)
 }
 
-# site/ 以下（アプリ一覧ページ、サンプルデータなど）をそのまま docs/ に重ねる
+# Copy everything under site/ (index page, example data, ...) into docs/
 for (f in list.files("site", recursive = TRUE)) {
   dir.create(dirname(file.path("docs", f)), showWarnings = FALSE, recursive = TRUE)
   file.copy(file.path("site", f), file.path("docs", f), overwrite = TRUE)
 }
-# GitHub Pages の Jekyll 処理を止める（"_" で始まるファイルが配信されなくなるのを防ぐ）
+# Turn off Jekyll on GitHub Pages (otherwise files whose names start with "_" are not served)
 file.create("docs/.nojekyll")
 
 cat("shinylive", as.character(packageVersion("shinylive")),
