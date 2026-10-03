@@ -9,6 +9,35 @@ No server is involved, so data uploaded to an app never leave the user's compute
 |---|---|---|
 | CART (classification and regression trees) | <https://ksatohds.github.io/webR/CART/> | `apps/CART/` |
 
+## How it works
+
+GitHub Pages does not run R; it only serves files. R itself runs in each user's browser.
+
+```mermaid
+flowchart TB
+    pages["GitHub Pages<br/>static files only"]
+    subgraph browser["User's browser: all computation and data stay here"]
+        direction LR
+        ui["Shiny UI<br/>ui.R, plots"]
+        sw["Service worker<br/>stands in for the server"]
+        webr["webR: R compiled to WebAssembly<br/>runs server.R"]
+        ui <--> sw <--> webr
+    end
+    pages -- "downloaded once, about 50 MB" --> browser
+```
+
+1. On the first visit, the browser downloads webR (R compiled to WebAssembly, in `docs/shinylive/webr/`), the WebAssembly builds of the R packages the app uses, and the app itself (`docs/CART/app.json`, which holds `ui.R`, `server.R` and the font). Later visits use the browser cache.
+2. webR starts in a background thread of the browser, loads the packages and runs the Shiny app.
+3. A normal Shiny app is a web page talking to an R process on a server. Here a service worker intercepts the requests that would go to the server (page updates, file uploads, downloads) and passes them to webR in the same browser, so `ui.R` and `server.R` run almost unchanged.
+
+| | Hosted Shiny server (e.g. shinyapps.io) | Shinylive / webR on GitHub Pages |
+|---|---|---|
+| Where R runs | On the server | In each user's browser |
+| Uploaded data | Sent to the server | Stay on the user's computer |
+| Main constraints | Server hours, idle sleep | First download, speed of the user's device |
+
+The bundled webR holds only R, its base packages and the packages the apps need (about 83 MB on disk). Computation runs on the user's device and can be slower than a local R installation; webR is 32-bit, so it is not suited to very large data.
+
 ## Layout
 
 | Path | Contents |
